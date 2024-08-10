@@ -1,35 +1,50 @@
 {
-  
+  
   "dependencies": {
-  
-    
+  
+    
   "body-parser": "^1.20.2",
-  
-    
+  
+    
+  "dotenv": "^16.4.5",
+  
+    
   "ejs": "^3.1.10",
-  
-    
+  
+    
   "express": "^4.19.2",
-  
-    
+  
+    
   "express-session": "^1.18.0",
-  
-    
+  
+    
   "mongoose": "^8.5.2",
-  
-    
-  "pdfkit": "^0.15.0"
-  
+  
+    
+  "path": "^0.12.7",
+  
+    
+  "pdfkit": "^0.15.0",
+  
+    
+  "uuid": "^10.0.0"
+  
   },
-  
+  
   "devDependencies": {
-  
-    
+  
+    
   "nodemon": "^3.1.4"
-  
+  
   },
+  
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+  
+    
+  "start": "node app.js",
+  
+    
+  "dev": "nodemon app.js"
+  
   }
 }
