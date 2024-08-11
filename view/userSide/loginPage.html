@@ -3,12 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quizzy Login</title>
-    <link rel="stylesheet" href="login.css">
+    <title>Quiz India Login</title>
+    <link rel="stylesheet" href="/public/userSide/css/login.css">
 </head>
 <body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h2>Quiz</h2>
+                <img src="/public/userSide/img/india.png"  alt="India Logo">
+            </div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Leaderboard</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+            <button class="join-now">Join Now</button>
+        </nav>
+    </header>
+
     <div class="login-container">
-        <h2>Login to Quizzy</h2>
+        <h2>Login to Quiz India</h2>
         <form action="/login" method="POST">
             <div class="input-group">
                 <label for="username">Username</label>
