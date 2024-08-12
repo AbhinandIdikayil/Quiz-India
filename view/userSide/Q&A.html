@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Question</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #FF9933, #138808); /* Saffron to Green gradient */
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding-top: 70px; /* Space for the fixed header */
+        }
+
+        header {
+            background-color: #fff;
+            color: #138808;
+            width: 100%;
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            padding: 10px;
+            width: 70px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #FF9933;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #f0f0f0;
+        }
+
+        .join-now {
+            background-color: #138808;
+            border: none;
+            padding: 10px 20px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .join-now:hover {
+            background-color: #0c6b06;
+        }
+
+        .question-container {
+            background-color: #fff;
+            color: #333;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .question {
+            font-size: 24px;
+            margin-bottom: 40px;
+            color: #138808; /* Green color */
+        }
+
+        .options {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .options li {
+            background-color: #FF9933; /* Saffron color */
+            color: #fff;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 40%; /* Ensures two options per row */
+        }
+
+        .options li:hover, .options li.selected {
+            background-color: #f0f0f0;
+            color: #138808; /* Green color */
+        }
+
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #FF9933; /* Saffron color */
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h2>Quiz</h2>
+                <img src="/public/userSide/img/india.png" alt="India Logo">
+            </div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Leaderboard</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+            <button class="join-now">Join Now</button>
+        </nav>
+    </header>
+
+    <div class="question-container">
+        <div class="timer" id="timer">Time left: 30s</div>
+        <div class="question">
+            What is the capital of India?
+        </div>
+        <ul class="options">
+            <li onclick="selectOption(this, 'Mumbai')">Mumbai</li>
+            <li onclick="selectOption(this, 'New Delhi')">New Delhi</li>
+            <li onclick="selectOption(this, 'Kolkata')">Kolkata</li>
+            <li onclick="selectOption(this, 'Chennai')">Chennai</li>
+        </ul>
+    </div>
+
+    <script>
+        let timeLeft = 30;
+        const timerElement = document.getElementById('timer');
+
+        const countdown = setInterval(() => {
+            timeLeft--;
+            timerElement.textContent = `Time left: ${timeLeft}s`;
+
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                alert('Time is up!');
+                // Handle time up scenario
+            }
+        }, 1000);
+
+        function selectOption(optionElement, answer) {
+            const options = document.querySelectorAll('.options li');
+            options.forEach(option => option.classList.remove('selected'));
+            optionElement.classList.add('selected');
+
+            clearInterval(countdown);
+            alert(`You selected: ${answer}`);
+            // Add functionality here to handle the answer submission
+        }
+    </script>
+</body>
+</html>
