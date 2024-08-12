@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="/public/userSide/css/register.css">
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #FF9933, #138808); /* Saffron to Green gradient */
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            color: #138808;
+            width: 100%;
+            padding: 15px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            padding: 10px;
+            width: 70px;
+            height: auto;
+            margin-right: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #FF9933;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #f0f0f0;
+        }
+
+        .join-now {
+            background-color: #138808;
+            border: none;
+            padding: 10px 20px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .join-now:hover {
+            background-color: #0c6b06;
+        }
+
+        /* Edit Profile Container */
+        .edit-profile-container {
+            background-color: #fff;
+            color: #333;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .edit-profile-container h2 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #138808;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #138808;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .input-group input[type="file"] {
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+
+        .profile-photo-container {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .profile-photo-container img {
+            width: 100px; /* Adjust size as needed */
+            height: 100px; /* Adjust size as needed */
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #FF9933; /* Border color to match the theme */
+            background-color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .profile-photo-label {
+            text-align: center;
+        }
+
+        .profile-photo-label label {
+            display: block;
+            font-weight: bold;
+            color: #138808;
+        }
+
+        .profile-photo-label input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .edit-button {
+            background-color: #FF9933;
+            border: none;
+            padding: 10px 20px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .edit-button:hover {
+            background-color: #e0861b;
+        }
+
+        .edit-profile-container p {
+            margin-top: 15px;
+        }
+
+        .edit-profile-container a {
+            color: #FF9933;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .edit-profile-container a:hover {
+            color: #e0861b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <h2>Quiz</h2>
+                <img src="/public/userSide/img/india.png" alt="India Logo">
+            </div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Leaderboard</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
+            <button class="join-now">Join Now</button>
+        </nav>
+    </header>
+
+    <div class="edit-profile-container">
+        <h2>Edit Profile</h2>
+        <form action="/edit-profile" method="POST" enctype="multipart/form-data">
+            <div class="input-group profile-photo-container">
+                <img id="profile-photo-preview" src="/public/userSide/img/avatar (1).jpg" alt="Profile Photo Preview">
+                <div class="profile-photo-label">
+                    <label for="profile-photo">Change Profile Photo</label>
+                    <input type="file" id="profile-photo" name="profile-photo" accept="image/*">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="Current Name" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="current.email@example.com" required>
+            </div>
+            <div class="input-group">
+                <label for="password">New Password</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <div class="input-group">
+                <label for="confirm-password">Confirm New Password</label>
+                <input type="password" id="confirm-password" name="confirm-password">
+            </div>
+            <button type="submit" class="edit-button">Save Changes</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const profilePhotoInput = document.getElementById('profile-photo');
+            const profilePhotoPreview = document.getElementById('profile-photo-preview');
+
+            profilePhotoInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        profilePhotoPreview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

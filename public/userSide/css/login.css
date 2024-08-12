@@ -1,0 +1,148 @@
+/* General Styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #FF9933, #138808); /* Saffron to Green gradient */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+/* Header */
+header {
+    background-color: #fff;
+    color: #138808;
+    width: 100%;
+    padding: 15px 0;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    padding: 10px;
+    width: 70px;
+    height: auto;
+    margin-right: 10px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #FF9933;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #f0f0f0;
+}
+
+.join-now {
+    background-color: #138808;
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.join-now:hover {
+    background-color: #0c6b06;
+}
+
+/* Login Container */
+.login-container {
+    background-color: #fff;
+    color: #333;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #138808;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #138808;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.login-button {
+    background-color: #FF9933;
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.login-button:hover {
+    background-color: #e0861b;
+}
+
+.login-container p {
+    margin-top: 15px;
+}
+
+.login-container a {
+    color: #FF9933;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-container a:hover {
+    color: #e0861b;
+}
