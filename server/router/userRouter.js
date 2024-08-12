@@ -7,7 +7,7 @@ router.get('/',userRender.homePage);
 // User Register Routes
 router.route('/register')
     .get(
-        userRender.userRegister
+        // userRender.userRegister
     )
     .post(
         userController.userRegister
