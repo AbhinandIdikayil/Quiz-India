@@ -37,9 +37,112 @@
                 </div>
             </div>
         </section>
+        <div>
+            <h2 class="section-heading">Meet Our Quiz Masters</h2>
+        </div>
+        <section class="quiz-masters">
+            <div class="quiz-master">
+                <div class="image-container">
+                    <img src="/public/userSide/img/user1.jpg" alt="Quiz Master 1">
+                </div>
+                <h3>John Doe</h3>
+            </div>
+            <div class="quiz-master">
+                <div class="image-container">
+                    <img src="/public/userSide/img/user2.jpg" alt="Quiz Master 2">
+                </div>
+                <h3>Jane Smith</h3>
+            </div>
+            <div class="quiz-master">
+                <div class="image-container">
+                    <img src="/public/userSide/img/user3.jpg" alt="Quiz Master 3">
+                </div>
+                <h3>Michael Johnson</h3>
+            </div>
+            <div class="quiz-master">
+                <div class="image-container">
+                    <img src="/public/userSide/img/user4.jpg" alt="Quiz Master 4">
+                </div>
+                <h3>Emily Davis</h3>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2 class="section-heading">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <h3 class="faq-question">1. What is this quiz about?</h3>
+                    <div class="faq-answer">
+                        <p>This quiz tests your knowledge on various topics like science, history, and geography.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">2. How does this quiz work?</h3>
+                    <div class="faq-answer">
+                        <p>Select answers to multiple-choice questions and submit. You'll see your score and feedback.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">3. Can I track my score?</h3>
+                    <div class="faq-answer">
+                        <p>Yes, your score will be displayed after you finish the quiz.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <h3 class="faq-question">4. Are there different difficulty levels?</h3>
+                    <div class="faq-answer">
+                        <p>Yes, quizzes have varying difficulty levels.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        
+        
+        
+        
+        <section class="upcoming-quizzes">
+            <h2 class="section-heading">Upcoming Quizzes</h2>
+            <div class="quiz-grid">
+                <div class="quiz-item">
+                    <h3 class="quiz-title">Science Trivia</h3>
+                    <p class="quiz-date">August 20, 2024</p>
+                    <p class="quiz-description">Test your knowledge on various science topics in this exciting trivia quiz.</p>
+                    <a href="#" class="join-button">join Now</a>
+                </div>
+                <div class="quiz-item">
+                    <h3 class="quiz-title">History Challenge</h3>
+                    <p class="quiz-date">August 25, 2024</p>
+                    <p class="quiz-description">Dive into historical events and figures with this challenging quiz.</p>
+                    <a href="#" class="join-button">join Now</a>
+                </div>
+                <div class="quiz-item">
+                    <h3 class="quiz-title">Geography Quest</h3>
+                    <p class="quiz-date">August 30, 2024</p>
+                    <p class="quiz-description">Explore the world's continents, countries, and landmarks in this geography quiz.</p>
+                    <a href="#" class="join-button">join Now</a>
+                </div>
+                <!-- Add more quizzes as needed -->
+            </div>
+        </section>
+        
+        
+        
+        
     </main>
     
-
+    <script>document.querySelectorAll('.faq-item').forEach(item => {
+    item.addEventListener('click', () => {
+        const answer = item.querySelector('.faq-answer');
+        if (answer.style.maxHeight) {
+            answer.style.maxHeight = null;
+        } else {
+            document.querySelectorAll('.faq-answer').forEach(answer => answer.style.maxHeight = null); // Collapse other open answers
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+    });
+});
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
