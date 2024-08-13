@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router = express.Router();
 const userRender = require('../services/userRender');
@@ -28,3 +29,4 @@ router.get('/verify-otp', userController.renderOtpPage);
 router.post('/verifyOtp', userController.verifyOtp);
 
 module.exports = router; 
+
