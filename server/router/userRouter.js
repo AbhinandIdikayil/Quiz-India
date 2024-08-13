@@ -27,6 +27,12 @@ router.route('/login')
 router.post("/send-otp",userController.renderOtpPage);
 router.get('/verify-otp', userController.renderOtpPage);
 router.post('/verifyOtp', userController.verifyOtp);
+router.get('/leaderboard', userRender.leaderboard);
+router.get('/editProfile', userRender.editProfile);
+router.get('/profile', userRender.getProfile);
+router.get('/Q&A', userRender.quizPage);
+
+
 
 module.exports = router; 
 

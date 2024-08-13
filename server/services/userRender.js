@@ -24,5 +24,45 @@ module.exports = {
     } catch (error) {
       console.log("register error:", error);
     }
-  }
+  },
+
+  leaderboard: async (req, res) => {
+    try {
+   
+  
+      res.status(200).render('leaderboard'); 
+    } catch (error) {
+      console.log("Leaderboard route error:", error);
+    }
+  },
+
+  getProfile: async (req, res) => {
+    try {
+   
+  
+      res.status(200).render('profile'); 
+    } catch (error) {
+      console.log("Leaderboard route error:", error);
+    }
+  },
+
+  editProfile: async (req, res) => {
+    try {
+   
+  
+      res.status(200).render('editProfile'); 
+    } catch (error) {
+      console.log("Leaderboard route error:", error);
+    }
+  },
+
+  quizPage: async (req, res) => {
+    try {
+   
+  
+      res.status(200).render('Q&A'); 
+    } catch (error) {
+      console.log("Leaderboard route error:", error);
+    }
+  },
 };

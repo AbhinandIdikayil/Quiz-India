@@ -15,7 +15,6 @@ const cookieConfig = {
 };
 
 
-
 module.exports = {
 
     //user Registeration
@@ -115,6 +114,8 @@ module.exports = {
           res.status(500).json({ success: false, message: "Server error" });
         }
     },
+
+   
 
 
 };

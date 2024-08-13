@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .profile-photo-container img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+        }
+
+        .profile-info h2 {
+            margin: 10px 0;
+        }
+
+        .profile-stats {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px;
+        }
+
+        .stat {
+            margin: 5px 0;
+        }
+
+        .stat-title {
+            font-weight: bold;
+        }
+
+        .edit-profile {
+            margin-top: 20px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #138808;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .edit-profile:hover {
+            background-color: #0c6b06;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            max-width: 600px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <%- include('includes/header') %>
+
+    <div class="profile-container">
+        <div class="profile-photo-container">
+            <img src="/userSide/img/avatar (1).jpg" alt="Profile Photo">
+        </div>
+        <div class="profile-info">
+            <h2>Ayisha Shirin</h2>
+            <p>Email: ayisha@example.com</p>
+        </div>
+        <div class="profile-stats">
+            <div class="stat">
+                <span class="stat-title">Score:</span>
+                <span class="stat-value">1500</span>
+            </div>
+            <div class="stat">
+                <span class="stat-title">Quiz Level:</span>
+                <span class="stat-value">Intermediate</span>
+            </div>
+            <div class="stat">
+                <span class="stat-title">Status:</span>
+                <span class="stat-value">Active</span>
+            </div>
+        </div>
+        <button class="edit-profile" id="editProfileBtn">Edit Profile</button>
+    </div>
+
+    <!-- Modal -->
+    <div id="editProfileModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Edit Profile</h2>
+            <form action="/edit-profile" method="POST" enctype="multipart/form-data">
+                <div class="input-group profile-photo-container">
+                    <img id="profile-photo-preview" src="/userSide/img/avatar (1).jpg" alt="Profile Photo Preview">
+                    <div class="profile-photo-label">
+                        <label for="profile-photo">Change Profile Photo</label>
+                        <input type="file" id="profile-photo" name="profile-photo" accept="image/*">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" value="Ayisha Shirin" required>
+                </div>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" value="ayisha@example.com" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">New Password</label>
+                    <input type="password" id="password" name="password">
+                </div>
+                <div class="input-group">
+                    <label for="confirm-password">Confirm New Password</label>
+                    <input type="password" id="confirm-password" name="confirm-password">
+                </div>
+                <button type="submit" class="edit-button">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("editProfileModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("editProfileBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Preview profile photo
+        document.addEventListener('DOMContentLoaded', function() {
+            const profilePhotoInput = document.getElementById('profile-photo');
+            const profilePhotoPreview = document.getElementById('profile-photo-preview');
+
+            profilePhotoInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        profilePhotoPreview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

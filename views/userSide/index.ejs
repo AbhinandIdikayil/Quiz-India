@@ -1,29 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz India</title>
-    <link rel="stylesheet" href="userSide/css/home.css">
-</head>
-<body>
-    <header>
-        <nav>
-            <div class="logo">
-                <h1>Quiz</h1>
-                <div class="logoimg"> <img src="userSide/img/india.png" alt="" class="user-icon">
-                </div>
-            </div>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Leaderboard</a></li>
-                <li><a href="#">Profile</a></li>
-
-            </ul>
-            <a href="/register"><button class="join-now">Join Now</button></a>
-        </nav>
-    </header>
-    
+<%- include('includes/header') %>
+<link rel="stylesheet" href="userSide/css/home.css">
+  
     <main>
         <section class="hero">
           <div class="quiz-card logo">
@@ -108,19 +85,19 @@
                     <h3 class="quiz-title">Science Trivia</h3>
                     <p class="quiz-date">August 20, 2024</p>
                     <p class="quiz-description">Test your knowledge on various science topics in this exciting trivia quiz.</p>
-                    <a href="#" class="join-button">join Now</a>
+                    <a href="/Q&A" class="join-button">join Now</a>
                 </div>
                 <div class="quiz-item">
                     <h3 class="quiz-title">History Challenge</h3>
                     <p class="quiz-date">August 25, 2024</p>
                     <p class="quiz-description">Dive into historical events and figures with this challenging quiz.</p>
-                    <a href="#" class="join-button">join Now</a>
+                    <a href="/Q&A" class="join-button">join Now</a>
                 </div>
                 <div class="quiz-item">
                     <h3 class="quiz-title">Geography Quest</h3>
                     <p class="quiz-date">August 30, 2024</p>
                     <p class="quiz-description">Explore the world's continents, countries, and landmarks in this geography quiz.</p>
-                    <a href="#" class="join-button">join Now</a>
+                    <a href="/Q&A" class="join-button">join Now</a>
                 </div>
                 <!-- Add more quizzes as needed -->
             </div>

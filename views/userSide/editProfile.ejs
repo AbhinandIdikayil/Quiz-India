@@ -1,0 +1,51 @@
+<%- include('include/header') %>
+<link rel="stylesheet" href="userSide/css/editProfile.css">
+
+    <div class="edit-profile-container">
+        <h2>Edit Profile</h2>
+        <form action="/edit-profile" method="POST" enctype="multipart/form-data">
+            <div class="input-group profile-photo-container">
+                <img id="profile-photo-preview" src="/userSide/img/avatar (1).jpg" alt="Profile Photo Preview">
+                <div class="profile-photo-label">
+                    <label for="profile-photo">Change Profile Photo</label>
+                    <input type="file" id="profile-photo" name="profile-photo" accept="image/*">
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="Current Name" required>
+            </div>
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="current.email@example.com" required>
+            </div>
+            <div class="input-group">
+                <label for="password">New Password</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <div class="input-group">
+                <label for="confirm-password">Confirm New Password</label>
+                <input type="password" id="confirm-password" name="confirm-password">
+            </div>
+            <button type="submit" class="edit-button">Save Changes</button>
+        </form>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const profilePhotoInput = document.getElementById('profile-photo');
+            const profilePhotoPreview = document.getElementById('profile-photo-preview');
+
+            profilePhotoInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        profilePhotoPreview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
