@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz India Register</title>
-    <link rel="stylesheet" href="/public/userSide/css/register.css">
+    <link rel="stylesheet" href="userSide/css/register.css">
     <style>
         /* General Styles */
         body {
@@ -206,10 +206,10 @@
         <nav>
             <div class="logo">
                 <h2>Quiz</h2>
-                <img src="/public/userSide/img/india.png" alt="India Logo">
+                <img src="userSide/img/india.png" alt="India Logo">
             </div>
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="/">Home</a></li>
                 <li><a href="#">Leaderboard</a></li>
                 <li><a href="#">Profile</a></li>
             </ul>
@@ -219,29 +219,33 @@
 
     <div class="register-container">
         <h2>Create Your Account</h2>
-        <form action="/register" method="POST" enctype="multipart/form-data">
+        <form id="registration-form" enctype="multipart/form-data">
             <div class="input-group profile-photo-container">
-                <img id="profile-photo-preview" src="/public/userSide/img/avatar (1).jpg" alt="Profile Photo Preview">
-                <div class="profile-photo-label">
+                <img id="profile-photo-preview" src="userSide/img/avatar (1).jpg" alt="Profile Photo Preview">
+                <!-- <div class="profile-photo-label">
                     <label for="profile-photo">Profile Photo</label>
-                    <input type="file" id="profile-photo" name="profile-photo" accept="image/*" required>
-                </div>
+                    <input type="file" id="profile-photo" name="profileImgURL" accept="image/*">
+                </div> -->
             </div>
             <div class="input-group">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" required>
+                <div id="name-error" class="error-message"></div>
             </div>
             <div class="input-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
+                <div id="email-error" class="error-message"></div>
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required>
+                <div id="password-error" class="error-message"></div>
             </div>
             <div class="input-group">
                 <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" required>
+                <input type="password" id="confirm-password" name="confirmPassword" required>
+                <div id="confirmPassword-error" class="error-message"></div>
             </div>
             <button type="submit" class="register-button">Register</button>
         </form>
@@ -249,20 +253,69 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const profilePhotoInput = document.getElementById('profile-photo');
-            const profilePhotoPreview = document.getElementById('profile-photo-preview');
 
-            profilePhotoInput.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        profilePhotoPreview.src = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
+            // const profilePhotoInput = document.getElementById('profile-photo');
+            // const profilePhotoPreview = document.getElementById('profile-photo-preview');
+
+            // profilePhotoInput.addEventListener('change', function(event) {
+            //     const file = event.target.files[0];
+            //     if (file) {
+            //         const reader = new FileReader();
+            //         reader.onload = function(e) {
+            //             profilePhotoPreview.src = e.target.result;
+            //         };
+            //         reader.readAsDataURL(file);
+            //     }
+            // });
         });
+
+
+//form sumbition
+async function handleRegistration(event) {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+  const userData = Object.fromEntries(formData.entries());
+
+  try {
+    const response = await fetch('/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      displayErrors(data.errors);
+    } else {
+        window.location.href = '/verify-otp';
+      }
+  } catch (error) {
+    alert('An unexpected error occurred.');
+  }
+}
+
+function displayErrors(errors) {
+  // Clear previous errors
+  document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+
+  // Display new errors
+  for (const [field, message] of Object.entries(errors)) {
+    console.log(field, message);
+    
+    const errorElement = document.getElementById(`${field}-error`);
+    if (errorElement) {
+      errorElement.textContent = message;
+    }
+  }
+}
+
+document.getElementById('registration-form').addEventListener('submit', handleRegistration);
     </script>
+
+
 </body>
 </html>

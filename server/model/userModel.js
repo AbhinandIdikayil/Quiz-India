@@ -1,7 +1,7 @@
 const mongodb = require('mongoose');
 
 const userSchema = new mongodb.Schema({
-    fullName: {
+    name: {
         type: String,
         required: true,
     },
@@ -10,27 +10,30 @@ const userSchema = new mongodb.Schema({
         required: true,
         unique: true
     },
-    profileImage:{
+    profileImgURL:{
         type: String,
         default: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
     },
     password: {
         type: String,
-        unique:true,
         required: true
     },
     userStatus: {
         type: Boolean,
-        required: true
+        default: true
     },
     totalScore:{
         type: Number,
+        default:0
     },
     correctedAnswerCount:{
-        type:Number
+        type:Number,
+        default:0
     },
     wrongAnswerCount:{
-        type:Number
+        type:Number,
+        default:0
+
     }
 });
 

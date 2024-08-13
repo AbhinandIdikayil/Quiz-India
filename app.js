@@ -4,14 +4,15 @@ const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 const session = require("express-session");
 require('dotenv').config();
+const mongoose = require("mongoose");
 
 const userRouter = require("./server/router/userRouter");
-const connectDB  = require("./connections/mongoConnetion");
 
 // Set view engine
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "/views/userSide"));
 app.use("/", express.static(path.join(__dirname, "/views")));
-app.use("/", express.static(path.join(__dirname, "/public/userSide")));
+app.use("/", express.static(path.join(__dirname, "/public")));
 
 // Session setup
 app.use(
@@ -20,7 +21,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
+      maxAge: 1000 * 60 * 60 * 24,
     },
   })
 );
@@ -43,10 +44,16 @@ app.use((req, res, next) => {
 // Use userRouter
 app.use("/", userRouter);
 
-
-connectDB()
-// Server setup
+//mongo connection
 const PORT = 3000;
-app.listen(PORT, () =>
-  console.log(`Server is running at http://localhost:${PORT}`)
-);
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Listening on Port: ${PORT} - DB Connected`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
