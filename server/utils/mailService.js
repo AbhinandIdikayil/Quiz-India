@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
-
 require('dotenv').config();
+
 const { AUTH_EMAIL, AUTH_PASS } = process.env;
 
 let transporter = nodemailer.createTransport({
@@ -14,20 +14,11 @@ let transporter = nodemailer.createTransport({
     },
 });
 
-transporter.verify((error, success) => {
-    if (error) {
-        console.log("Error verifying transporter:", error);
-    } else {
-        console.log("Transporter is ready to send emails");
-        console.log(success); 
-    }
-});
-
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-async function sendOtpMail(req, res) {
+async function sendOtpMail(req) {
   const { verifyEmail } = req.session;
   const otp = generateOTP();
 
@@ -46,14 +37,8 @@ async function sendOtpMail(req, res) {
     `
   };
 
-  try {
-    await transporter.sendMail(mailOptions);
-    console.log('OTP email sent successfully');
-
-  } catch (error) {
-    console.error('Error sending OTP email:', error);
-    res.status(500).json({ error: 'Failed to send OTP email. Please try again.' });
-  }
+  await transporter.sendMail(mailOptions);
+  console.log('OTP email sent successfully to', verifyEmail, "otp", otp);
 }
 
 module.exports = {
