@@ -208,8 +208,8 @@
       <h2>OTP Verification</h2>
       <form id="otpForm">
         <p>
-          We have sent an OTP to your registered gmail: <%=email%>. Please enter the
-          OTP below:
+          We have sent an OTP to your registered gmail: <%=email%>. Please enter
+          the OTP below:
         </p>
         <div class="otp-container">
           <input type="text" name="otp1" maxlength="1" required />
@@ -226,7 +226,7 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", async function () {
-        
+        const email = JSON.parse('<%= JSON.stringify(email) %>'.replace(/&#34;/g, '"'));
         const otpInputs = document.querySelectorAll(".otp-container input");
 
         otpInputs.forEach((input, index) => {
@@ -241,35 +241,33 @@
           .getElementById("otpForm")
           .addEventListener("submit", async (event) => {
             event.preventDefault();
-            
+
             const enteredOtp = Array.from(otpInputs)
-              .map(input => input.value)
-              .join('');
-              console.log("enterd otp",enteredOtp);
-              
-try {
-  const response = await fetch("/verifyOtp", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-               enteredOtp
-              }),
-            });
+              .map((input) => input.value)
+              .join("");
+            console.log("enterd otp", enteredOtp);
 
-            const result = await response.json();
-            if (response.ok) {
-              alert("OTP verified successfully! User registered.");
-              window.location.href = "/"; 
-            } else {
-              alert("OTP verification failed. Please try again.");
+            try {
+              const response = await fetch("/verifyOtp", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  enteredOtp,
+                }),
+              });
+
+              const result = await response.json();
+              if (response.ok) {
+                alert("OTP verified successfully! User registered.");
+                window.location.href = "/";
+              } else {
+                alert("OTP verification failed. Please try again.");
+              }
+            } catch (error) {
+              console.log("sent otp", error);
             }
-} catch (error) {
-  console.log("sent otp",error);
-  
-}
-
           });
 
         document

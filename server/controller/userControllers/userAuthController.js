@@ -106,18 +106,17 @@ const cookieConfig = {
     
       resendOtp: async (req, res) => {
         try {
-          const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-    
-          req.session.otp = newOtp;
-    
-          console.log("New OTP:", newOtp);
+          
+          await sendOtpMail(req);
     
           res.json({ success: true, message: "OTP resent successfully" });
         } catch (error) {
           console.log("Resend OTP error", error);
           res.status(500).json({ success: false, message: "Server error" });
         }
-    }
+    },
+
+
 };
 
 
