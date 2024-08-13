@@ -137,6 +137,59 @@
             color: #FF9933; /* Saffron color */
             margin-bottom: 20px;
         }
+
+        .question-level {
+            font-size: 18px;
+            color: #FF9933;
+            margin-bottom: 10px;
+        }
+
+        .options li.correct {
+            background-color: #138808;
+            color: #fff;
+        }
+
+        .options li.incorrect {
+            background-color: #FF0000;
+            color: #fff;
+        }
+
+        .next-button {
+            background-color: #138808;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .next-button:hover {
+            background-color: #0c6b06;
+        }
+
+        .next-button {
+            background-color: #138808;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;
+        }
+        .next-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .next-button:hover:not(:disabled) {
+            background-color: #0c6b06;
+        }
+
+
     </style>
 </head>
 <body>
@@ -156,42 +209,190 @@
     </header>
 
     <div class="question-container">
-        <div class="timer" id="timer">Time left: 30s</div>
-        <div class="question">
-            What is the capital of India?
-        </div>
-        <ul class="options">
-            <li onclick="selectOption(this, 'Mumbai')">Mumbai</li>
-            <li onclick="selectOption(this, 'New Delhi')">New Delhi</li>
-            <li onclick="selectOption(this, 'Kolkata')">Kolkata</li>
-            <li onclick="selectOption(this, 'Chennai')">Chennai</li>
+        <div class="timer" id="timer">Time left: 60s</div>
+        <div class="question-level" id="questionLevel">LEVEL: <%=question.type%></div>
+        <div class="question" id="questionText"><%=question.question%></div>
+        <ul class="options" id="optionsList">
+            <% question.choices.forEach((choice) => { %>
+                <li data-choice="<%=choice%>"><%=choice%></li>
+            <% }) %>
         </ul>
+        <button class="next-button" id="nextButton" disabled>Next Question</button>
     </div>
 
     <script>
-        let timeLeft = 30;
+        let timeLeft = 60;
+        let timerInterval;
+        let currentQuestion = JSON.parse('<%- JSON.stringify(question)  %>'.replace(/&#34;/g, '"'));
+        let selectedAnswer;
+
         const timerElement = document.getElementById('timer');
+        const questionLevelElement = document.getElementById('questionLevel');
+        const questionTextElement = document.getElementById('questionText');
+        const optionsListElement = document.getElementById('optionsList');
+        const nextButton = document.getElementById('nextButton');
 
-        const countdown = setInterval(() => {
-            timeLeft--;
-            timerElement.textContent = `Time left: ${timeLeft}s`;
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = `Time left: ${timeLeft}s`;
 
-            if (timeLeft <= 0) {
-                clearInterval(countdown);
-                alert('Time is up!');
-                // Handle time up scenario
-            }
-        }, 1000);
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
 
-        function selectOption(optionElement, answer) {
+        function handleTimeout() {
+            disableOptions();
+            showCorrectAnswer();
+            nextButton.disabled = false;
+            nextButton.style.display = 'block';
+        }
+
+        function disableOptions() {
+            const options = document.querySelectorAll('.options li');
+            options.forEach(option => option.style.pointerEvents = 'none');
+        }
+
+        function showCorrectAnswer() {
+            const options = document.querySelectorAll('.options li');
+            options.forEach(option => {
+                if (option.dataset.choice === currentQuestion.answer) {
+                    option.classList.add('correct');
+                }
+            });
+        }
+
+        function selectOption(optionElement) {
+            if (selectedAnswer) return; // Prevent multiple selections
             const options = document.querySelectorAll('.options li');
             options.forEach(option => option.classList.remove('selected'));
             optionElement.classList.add('selected');
+            selectedAnswer = optionElement.dataset.choice;
 
-            clearInterval(countdown);
-            alert(`You selected: ${answer}`);
-            // Add functionality here to handle the answer submission
+            clearInterval(timerInterval);
+            checkAnswer();
         }
+
+        function checkAnswer() {
+            disableOptions();
+            if (selectedAnswer === currentQuestion.answer) {
+                document.querySelector('.selected').classList.add('correct');
+            } else {
+                document.querySelector('.selected').classList.add('incorrect');
+                showCorrectAnswer();
+            }
+            nextButton.disabled = false;
+            nextButton.style.display = 'block';
+            updateUserScore();
+        }
+
+        async function updateUserScore() {
+            try {
+                const response = await fetch('/update-score', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        questionId: currentQuestion._id,
+                        userAnswer: selectedAnswer,
+                        timeLeft: timeLeft
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to update score');
+                }
+
+                const result = await response.json();
+                console.log('Score updated:', result);
+
+                if (result.quizMasterAchieved) {
+                    alert("Congratulations! You are now a Quiz Master!");
+                    window.location.href = '/'; 
+                } else if (result.levelChanged) {
+                    alert(`Congratulations! You've advanced to ${result.updatedUser.level} level!`);
+                }
+
+            
+
+            } catch (error) {
+                console.error('Error updating score:', error);
+            }
+        }
+
+        async function loadQuestion() {
+            try {
+                const response = await fetch('/get-question');
+                if (!response.ok) {
+                    throw new Error('Failed to load question');
+                }
+
+                currentQuestion = await response.json();
+                displayQuestion(currentQuestion);
+            } catch (error) {
+                console.error('Error loading question:', error);
+            }
+        }
+
+        function displayQuestion(question) {
+            questionLevelElement.textContent = `Level: ${question.type}`;
+            questionTextElement.textContent = question.question;
+            optionsListElement.innerHTML = '';
+
+            question.choices.forEach(choice => {
+                const li = document.createElement('li');
+                li.textContent = choice;
+                li.dataset.choice = choice;
+                li.onclick = () => selectOption(li);
+                optionsListElement.appendChild(li);
+            });
+
+            selectedAnswer = null;
+            nextButton.disabled = true;
+            nextButton.style.display = 'none';
+
+            timeLeft = 60;
+            startTimer();
+        }
+
+        nextButton.addEventListener('click', () => {
+            loadQuestion();
+        });
+
+        // Initial setup for the first question
+        function initializeFirstQuestion() {
+            displayQuestion(currentQuestion);
+            const options = document.querySelectorAll('.options li');
+            options.forEach(option => {
+                option.onclick = () => selectOption(option);
+            });
+        }
+
+        // Call this function when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeFirstQuestion();
+            const savedTime = sessionStorage.getItem('timeLeft');
+            if (savedTime) {
+                timeLeft = parseInt(savedTime);
+            }
+            startTimer();
+        });
+
+        // Prevent page refresh
+        window.addEventListener('beforeunload', (event) => {
+            event.preventDefault();
+            event.returnValue = '';
+        });
+
+        // Save timer state periodically
+        setInterval(() => {
+            sessionStorage.setItem('timeLeft', timeLeft);
+        }, 1000);
     </script>
 </body>
 </html>

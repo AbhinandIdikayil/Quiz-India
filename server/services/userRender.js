@@ -1,3 +1,8 @@
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+const Userdb = require("../model/userModel");
+const Questiondb = require("../model/questions");
+
 module.exports = {
   //render home page
   homePage: async (req, res) => {
@@ -57,12 +62,45 @@ module.exports = {
   },
 
   quizPage: async (req, res) => {
-    try {
-   
-  
-      res.status(200).render('Q&A'); 
+      try {
+        const token = req.cookies.user_token;
+        const { _id } = jwt.verify(token, process.env.SECRET);
+
+        if (!mongoose.Types.ObjectId.isValid(_id)) {
+            return res.redirect("/login");
+        }
+
+        const user = await Userdb.findById(_id);
+        if (!user) {
+            return res.redirect("/login");
+        }
+
+        const userLevel = user.level;
+
+        const questions = await Questiondb.aggregate([
+            { $match: { type: userLevel } },
+            { $sample: { size: 10 } }
+        ]);
+
+        if (!req.session.askedQuestionIds) {
+            req.session.askedQuestionIds = [];
+        }
+
+        const newQuestions = questions.filter(q => !req.session.askedQuestionIds.includes(q._id.toString()));
+
+        if (newQuestions.length === 0) {
+            req.session.askedQuestionIds = [];
+            return res.redirect('/Q&A');
+        }
+
+        const selectedQuestion = newQuestions[0];
+        req.session.askedQuestionIds.push(selectedQuestion._id.toString());
+
+        res.status(200).render('Q&A', { question: selectedQuestion });
     } catch (error) {
-      console.log("Leaderboard route error:", error);
+        console.log("Quiz page route error:", error);
+        res.status(500).send("An error occurred while loading the quiz.");
     }
-  },
+  }
+
 };

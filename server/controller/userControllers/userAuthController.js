@@ -115,8 +115,29 @@ module.exports = {
         }
     },
 
-   
+    userLogin: async (req, res) =>{
+      try {
+        const { email, password } = req.body;
 
+        const user = await Userdb.findOne({ email });
+        
+        if (!user) return res.status(401).json({message: "Invalid email or password"});
+   
+        // const isMatch = await bcrypt.compare(password, user.password);
+        // if (!isMatch) return res.status(401).json({ message: "Invalid email or password"});
+
+        const token = createToken(user._id);
+
+        res.cookie("user_token", token, cookieConfig);
+    
+        res.status(200).json(user);
+
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({message: "server error"});
+      }
+    }
+ 
 
 };
 
@@ -157,3 +178,5 @@ async function validateInputs( name, email, password, confirmPassword ) {
 
   return errors;
 }
+
+
