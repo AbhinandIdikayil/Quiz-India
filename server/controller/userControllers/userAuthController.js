@@ -16,7 +16,7 @@ const cookieConfig = {
 
 
 
-// module.exports = {
+module.exports = {
 
     //user Registeration
     userRegister: async (req, res) => {
@@ -138,22 +138,22 @@ async function validateInputs( name, email, password, confirmPassword ) {
     errors.name = "Name must contain only letters and be non-empty";
   }
 
-//   if (!validateEmail(email)) {
-//     errors.email = "Please provide a valid Gmail address";
-//   } else {
-//     const existingUser = await Userdb.findOne({ email });
-//     if (existingUser) {
-//       errors.email = "This email is already registered";
-//     }
-//   }
+  if (!validateEmail(email)) {
+    errors.email = "Please provide a valid Gmail address";
+  } else {
+    const existingUser = await Userdb.findOne({ email });
+    if (existingUser) {
+      errors.email = "This email is already registered";
+    }
+  }
 
-//   if (!validatePassword(password)) {
-//     errors.password = "Password must be at least 6 characters long, contain an uppercase letter and a special character";
-//   }
+  if (!validatePassword(password)) {
+    errors.password = "Password must be at least 6 characters long, contain an uppercase letter and a special character";
+  }
 
-//   if (password !== confirmPassword) {
-//     errors.confirmPassword = "Passwords do not match";
-//   }
+  if (password !== confirmPassword) {
+    errors.confirmPassword = "Passwords do not match";
+  }
 
-//   return errors;
-// }
+  return errors;
+}
