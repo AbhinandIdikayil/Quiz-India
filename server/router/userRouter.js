@@ -24,7 +24,6 @@ router.route('/login')
     );
 
 router.post("/send-otp",userController.renderOtpPage);
-// router.post("/veryfyOtp",userController.veryfyOtp)
 router.get('/verify-otp', userController.renderOtpPage);
 router.post('/verifyOtp', userController.verifyOtp);
 
