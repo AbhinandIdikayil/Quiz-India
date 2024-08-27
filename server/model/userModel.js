@@ -33,9 +33,18 @@ const userSchema = new mongodb.Schema({
     wrongAnswerCount:{
         type:Number,
         default:0
-
+    },
+    level:{
+        type: String,
+        enum: ["hard", "medium", "easy"], 
+        default:"easy"
+    },
+    quizMasters:{
+        type:Boolean,
+        default:false
     }
 });
+
 
 const Userdb = mongodb.model('Userdb', userSchema);
 

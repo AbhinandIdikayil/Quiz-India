@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const userRender = require('../services/userRender');
 const userController = require("../controller/userControllers/userAuthController");
+const questionController = require("../controller/userControllers/questionController");
 const upload = require("../../connections/upload");
 //home page
 router.get('/',userRender.homePage);
@@ -21,7 +22,7 @@ router.route('/login')
         userRender.userLogin
     )
     .post(
-
+       userController.userLogin
     );
 
 router.post("/send-otp",userController.renderOtpPage);
@@ -31,8 +32,7 @@ router.get('/leaderboard', userRender.leaderboard);
 router.get('/editProfile', userRender.editProfile);
 router.get('/profile', userRender.getProfile);
 router.get('/Q&A', userRender.quizPage);
-
-
-
+router.post('/update-score',questionController.updateScore);
+router.get('/get-question',questionController. getQuestion);
 module.exports = router; 
 

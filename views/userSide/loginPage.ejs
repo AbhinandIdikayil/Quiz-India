@@ -1,21 +1,72 @@
 <%- include('includes/header') %>
-    <link rel="stylesheet" href="userSide/css/login.css">
+<link rel="stylesheet" href="userSide/css/login.css">
 
+<div class="login-container">
+    <h2>Login to Quiz India</h2>
+    <form id="login-form">
+        <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+            <div id="email-error" class="error-message"></div>
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <div id="password-error" class="error-message"></div>
+        </div>
+        <button type="submit" class="login-button">Login</button>
+    </form>
+    <p>Don't have an account? <a href="/register">Sign up</a></p>
+</div>
 
-    <div class="login-container">
-        <h2>Login to Quiz India</h2>
-        <form action="/login" method="POST">
-            <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" required>
-            </div>
-            <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <button type="submit" class="login-button">Login</button>
-        </form>
-        <p>Don't have an account? <a href="/register">Sign up</a></p>
-    </div>
+<script>
+async function handleLogin(event) {
+    event.preventDefault();
+    try {
+    const formData = new FormData(event.target);
+    const userData = Object.fromEntries(formData.entries());
+
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            if (data.errors) {
+                displayErrors(data.errors);
+            } else {
+                alert(data.message)
+            }
+        } else {
+            window.location.href = '/'; 
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        displayErrors({ general: 'An unexpected error occurred. Please try again.' });
+    }
+}
+
+function displayErrors(errors) {
+    // Clear previous errors
+    document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+
+    // Display new errors
+    for (const [field, message] of Object.entries(errors)) {
+        const errorElement = document.getElementById(`${field}-error`) || 
+                             document.getElementById('email-error'); // Fallback to email error for general messages
+        if (errorElement) {
+            errorElement.textContent = message;
+        }
+    }
+}
+
+document.getElementById('login-form').addEventListener('submit', handleLogin);
+</script>
+
 </body>
 </html>

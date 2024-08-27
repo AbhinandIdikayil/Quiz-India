@@ -5,7 +5,7 @@ const path = require("path");
 const session = require("express-session");
 require('dotenv').config();
 const mongoose = require("mongoose");
-
+const cookieParser = require('cookie-parser');
 const userRouter = require("./server/router/userRouter");
 
 // Set view engine
@@ -32,6 +32,7 @@ app.use(express.static("public"));
 // Parse incoming requests with JSON payloads
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Cache control headers
 app.use((req, res, next) => {
